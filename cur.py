@@ -8,24 +8,29 @@ class Pole :
         self.winh = winh
         self.winl = winl
         self.empty = False
+        self.bohater = 0
         self.win = curses.newwin(winh, winl, 0+(winh*x), 0+(winl*y))
         self.win.box(0,0)
         self.win.refresh()
 
 class Siatka:
-    def move(self,ys, xs,yd,xd,char):
+    def move(self,ys, xs,yd,xd,char,bohater):
         if not self.win[xd][yd].empty:
             self.win[xs][ys].win.addch(self.winh/2,self.winl/2,' ')
+            self.win[xs][ys].bohater = 0
             self.win[xs][ys].empty  = False
             self.win[xd][yd].win.addch(self.winh/2,self.winl/2,char)
+            self.win[xd][yd].bohater = bohater
             self.win[xd][yd].empty  = True
             self.win[xs][ys].win.refresh()
             self.win[xd][yd].win.refresh()
-    def create(self,y, x,char):
+    def create(self,y, x,char,bohater):
+        self.win[x][y].bohater = bohater
         self.win[x][y].empty  = True
         self.win[x][y].win.addch(self.winh/2,self.winl/2,char)
         self.win[x][y].win.refresh()
     def destroy(self,y, x):
+        self.win[x][y].bohater = 0
         self.win[x][y].win.addch(self.winh/2,self.winl/2,' ')
         self.win[x][y].empty  = False
         self.win[x][y].win.refresh()

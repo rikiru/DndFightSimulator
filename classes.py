@@ -173,3 +173,19 @@ def Zaklinacz():
     "Atrybuty":[{"s":4},{"z":2},{"b":3},{"i":5},{"m":6},{"c":1}]
     }
     return json
+
+def Klasa(Nazwa):
+    switcher = {
+        "Barbarzynca": Barbarzynca(),
+        "Bard": Bard(),
+        "Czarodziej": Czarodziej(),
+        "Druid": Druid(),
+        "Kaplan": Kaplan(),
+        "Lotrzyk": Lotrzyk(),
+        "Mnich": Mnich(),
+        "Palladyn": Palladyn(),
+        "Tropiciel": Tropiciel(),
+        "Wojownik": Wojownik(),
+        "Zaklinacz": Zaklinacz()
+    }
+    return switcher.get(Nazwa, "Zla nazwa klasy")
