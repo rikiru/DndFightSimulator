@@ -145,7 +145,6 @@ try:
     # stanadrd.atakStandardowy(heros2,heros1)
     # cza.kulaognia(heros2.x,heros2.y)
     cza.silaByka(heros1)
-    event = stdscr.getch()
     curses.getmouse()
     print heros1.bohater,heros2.bohater
 
