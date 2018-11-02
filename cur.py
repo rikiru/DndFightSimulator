@@ -36,6 +36,8 @@ class Siatka:
         self.win[x][y].win.refresh()
     def __init__(self,h,l,winh,winl):
         self.win = [[Pole(x,y,winh,winl) for x in range(h)] for y in range(l)]
+        self.l =l
+        self.h =h
         self.winh = winh
         self.winl = winl
 

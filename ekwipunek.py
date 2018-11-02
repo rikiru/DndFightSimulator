@@ -10,7 +10,8 @@ def mieczdl():
     "mnoznik":2,
     "wynik":19
     },
-    "Zasieg":1.5
+    "Zasieg":1.5,
+    "Bouns":"s"
     }
     return json
 def mieczk():
@@ -25,7 +26,8 @@ def mieczk():
     "mnoznik":2,
     "wynik":19
     },
-    "Zasieg":1.5
+    "Zasieg":1.5,
+    "Bouns":"s"
     }
     return json
 def buzdyganlekki():
@@ -40,7 +42,8 @@ def buzdyganlekki():
     "mnoznik":2,
     "wynik":20
     },
-    "Zasieg":1.5
+    "Zasieg":1.5,
+    "Bouns":"s"
     }
     return json
 def sztylet():
@@ -55,7 +58,8 @@ def sztylet():
     "mnoznik":2,
     "wynik":19
     },
-    "Zasieg":1.5
+    "Zasieg":1.5,
+    "Bouns":"s"
     }
     return json
 def wloczniak():
@@ -70,7 +74,8 @@ def wloczniak():
     "mnoznik":2,
     "wynik":20
     },
-    "Zasieg":1.5
+    "Zasieg":1.5,
+    "Bouns":"s"
     }
     return json
 def maczuga():
@@ -85,7 +90,8 @@ def maczuga():
     "mnoznik":2,
     "wynik":20
     },
-    "Zasieg":1.5
+    "Zasieg":1.5,
+    "Bouns":"s"
     }
     return json
 def wlucznia():
@@ -100,7 +106,8 @@ def wlucznia():
     "mnoznik":3,
     "wynik":20
     },
-    "Zasieg":3
+    "Zasieg":3,
+    "Bouns":"s"
     }
     return json
 def kuszal():
@@ -115,7 +122,8 @@ def kuszal():
     "mnoznik":2,
     "wynik":19
     },
-    "Zasieg":24
+    "Zasieg":24,
+    "Bouns":"z"
     }
     return json
 def toporek():
@@ -130,7 +138,8 @@ def toporek():
     "mnoznik":3,
     "wynik":20
     },
-    "Zasieg":1.5
+    "Zasieg":1.5,
+    "Bouns":"s"
     }
     return json
 def mlotbojowy():
@@ -145,7 +154,8 @@ def mlotbojowy():
     "mnoznik":3,
     "wynik":20
     },
-    "Zasieg":1.5
+    "Zasieg":1.5,
+    "Bouns":"s"
     }
     return json
 def sejmitar():
@@ -160,7 +170,8 @@ def sejmitar():
     "mnoznik":2,
     "wynik":18
     },
-    "Zasieg":1.5
+    "Zasieg":1.5,
+    "Bouns":"s"
     }
     return json
 def toporwojenny():
@@ -175,7 +186,8 @@ def toporwojenny():
     "mnoznik":3,
     "wynik":20
     },
-    "Zasieg":1.5
+    "Zasieg":1.5,
+    "Bouns":"s"
     }
     return json
 def glewia():
@@ -190,7 +202,8 @@ def glewia():
     "mnoznik":2,
     "wynik":20
     },
-    "Zasieg":1.5
+    "Zasieg":1.5,
+    "Bouns":"s"
     }
     return json
 def korbaczc():
@@ -205,7 +218,8 @@ def korbaczc():
     "mnoznik":2,
     "wynik":19
     },
-    "Zasieg":1.5
+    "Zasieg":1.5,
+    "Bouns":"s"
     }
     return json
 def kosa():
@@ -220,7 +234,8 @@ def kosa():
     "mnoznik":4,
     "wynik":20
     },
-    "Zasieg":1.5
+    "Zasieg":1.5,
+    "Bouns":"s"
     }
     return json
 def mieczdwr():
@@ -235,7 +250,8 @@ def mieczdwr():
     "mnoznik":2,
     "wynik":19
     },
-    "Zasieg":1.5
+    "Zasieg":1.5,
+    "Bouns":"s"
     }
     return json
 def topordwr():
@@ -250,7 +266,8 @@ def topordwr():
     "mnoznik":3,
     "wynik":20
     },
-    "Zasieg":1.5
+    "Zasieg":1.5,
+    "Bouns":"s"
     }
     return json
 def lukk():
@@ -265,7 +282,8 @@ def lukk():
     "mnoznik":3,
     "wynik":20
     },
-    "Zasieg":1.5
+    "Zasieg":30,
+    "Bouns":"z"
     }
     return json
 def Bron(nazwa):
