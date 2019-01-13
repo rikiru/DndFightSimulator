@@ -26,28 +26,36 @@ def odleglosc(ax,ay,bx,by):
 
 
 class Hero:
-    def __init__(self,dane,x,y,zn):
+    def __init__(self,dane,x,y,zn,team,inicjatywa):
         self.x=x
         self.y=y
         self.bohater=dane
         self.znaczek = zn
         self.specjalne = []
+        self.team = team
+        self.bohater['inicjatywa']=inicjatywa + self.bohater['atrybuty']['z']
 
     def zminejszHP(self,atak):
         self.bohater['HP'] = self.bohater['HP'] - atak
     def zwiekszHP(self,leczenie):
         self.bohater['HP'] = self.bohater['HP'] + leczenie
+    def getRuchy(self):
+        return {"Ruch":["Ruch Standardowy"],"Standardowa":["Atak Standardowy"],"Czar":["Magiczny Pocisk","Kula Ognia"]}
+
 
 
 class Tworzenie:
     def __init__(self,siatka,logi):
         self.siatka = siatka
         self.logi = logi
-    def stworzBohatera(self,sy,sx,bohater,zn):
-        heros=Hero(bohater,sx,sy,zn)
+    def stworzBohatera(self,sy,sx,bohater,zn,team):
+        inicjatywa = randrange(1,20)
+        heros=Hero(bohater,sx,sy,zn,team,inicjatywa)
         self.siatka.create(sy,sx,zn,heros)
         self.logi.write("stworzono")
         return heros
+    def delHero(self,y,x):
+        self.siatka.destroy(y,x)
 
 
 class Ruch:
@@ -70,7 +78,7 @@ class Standardowa:
         print odleglosc(bohatera.x,bohatera.y,bohaterb.x,bohaterb.y)
         print bron['Zasieg']
         if  odleglosc(bohatera.x,bohatera.y,bohaterb.x,bohaterb.y) <= bron['Zasieg'] :
-            self.logi.write("boatera zaatakowal bohaterb")
+            self.logi.write(bohatera.znaczek + " zaatakowal " + bohaterb.znaczek)
             kosc = randrange(1,20)
             self.logi.write(str(kosc) + " + " + str(Modyfikator(bohatera.bohater['atrybuty'][bron['Bouns']]))+ " = " + str(kosc+ Modyfikator(bohatera.bohater['atrybuty'][bron['Bouns']])) + "| kontra " + str(bohaterb.bohater['KP']))
             if kosc + Modyfikator(bohatera.bohater['atrybuty'][bron['Bouns']]) >= bohaterb.bohater['KP']:
@@ -81,11 +89,10 @@ class Standardowa:
                 if bron['Bouns'] == 's':
                     obrazenia = obrazenia + Modyfikator(bohatera.bohater['atrybuty']['s'])
                 if bron['krytyk']['wynik'] <= kosc:
-                    print kosc
                     obrazenia = obrazenia * bron['krytyk']['mnoznik']
                     self.logi.write("KRYTYK")
                 bohaterb.zminejszHP(obrazenia)
-                self.logi.write("boatera zadal " + str(obrazenia) + " bohaterb")
+                self.logi.write(bohatera.znaczek + " zadal " + str(obrazenia) + " obrazen " + bohaterb.znaczek)
 
 class Czar:
     def __init__(self,siatka,log):
@@ -117,47 +124,53 @@ class Czar:
 
 
 
-
-stdscr = curses.initscr()
-
-curses.cbreak()
-curses.echo()
-try:
-    her1 = Bohater("Krasnolud","Barbarzynca",3,18,16,15,14,13,16,"Krutki Luk","Skozana")
-    her2 = Bohater("Krasnolud","Barbarzynca",3,18,16,15,14,13,16,"Topor Dworeczny","Plytowa")
-    siatka = Siatka(4,3,5,7)
-    log = Logi(4,3,5,7)
-    whateba = Tworzenie(siatka,log)
-    heros1 = whateba.stworzBohatera(1,1,her1,"3")
-    heros2 = whateba.stworzBohatera(0,0,her2,"4")
-    whateba = Ruch(siatka,log)
-    cza = Czar(siatka,log)
-    sleep(1)
-    print heros1.bohater,heros2.bohater,"cokolwiek"
-    # whateba.przesBohatera(3,2,heros1)
-    # stanadrd = Standardowa(siatka,log)
-    # stanadrd.atakStandardowy(heros1,heros2)
-    # cza.magicznypocisk(heros2),
-    # cza.leczenielr(heros2),
-    # cza.kulaognia(heros2.x,heros2.y)
-    # sleep(1)
-    # whateba.przesBohatera(3,1,heros2)
-    # stanadrd.atakStandardowy(heros2,heros1)
-    # cza.kulaognia(heros2.x,heros2.y)
-    cza.silaByka(heros1)
-    curses.getmouse()
-    print heros1.bohater,heros2.bohater
-
-except Exception as e:
-    print e
-    curses.endwin()
-    exit(0)
-g= "z"
-while g!="g":
-    g=sys.stdin.read(1)
-    if g == "q":
-        curses.endwin()
-        exit(0)
+#
+# stdscr = curses.initscr()
+# curses.curs_set(0)
+# stdscr.keypad(1)
+# curses.mousemask(1)
+# curses.cbreak()
+# curses.echo()
+# try:
+#     her1 = Bohater("Krasnolud","Barbarzynca",3,18,16,15,14,13,16,"Krutki Luk","Skozana")
+#     her2 = Bohater("Krasnolud","Barbarzynca",3,18,16,15,14,13,16,"Topor Dworeczny","Plytowa")
+#     siatka = Siatka(4,3,5,7)
+#     log = Logi(4,3,5,7)
+#     whateba = Tworzenie(siatka,log)
+#     heros1 = whateba.stworzBohatera(1,1,her1,"3")
+#     heros2 = whateba.stworzBohatera(0,0,her2,"4")
+#     whateba = Ruch(siatka,log)
+#     cza = Czar(siatka,log)
+#     sleep(1)
+#     print heros1.bohater,heros2.bohater,"cokolwiek"
+#     # whateba.przesBohatera(3,2,heros1)
+#     # stanadrd = Standardowa(siatka,log)
+#     # stanadrd.atakStandardowy(heros1,heros2)
+#     # cza.magicznypocisk(heros2),
+#     # cza.leczenielr(heros2),
+#     # cza.kulaognia(heros2.x,heros2.y)
+#     # sleep(1)
+#     # whateba.przesBohatera(3,1,heros2)
+#     # stanadrd.atakStandardowy(heros2,heros1)
+#     # cza.kulaognia(heros2.x,heros2.y)
+#     cza.silaByka(heros1)
+#     log.win.keypad(1)
+#     event = log.win.getch()
+#     if event == curses.KEY_MOUSE:
+#         _, mx, my, _, _ = curses.getmouse()
+#         log.write(" " + str(mx) + " " + str(my))
+#     print heros1.bohater,heros2.bohater
+#
+# except Exception as e:
+#     print e
+#     curses.endwin()
+#     exit(0)
+# g= "z"
+# while g!="g":
+#     g=sys.stdin.read(1)
+#     if g == "q":
+#         curses.endwin()
+#         exit(0)
 
 
 # def stworzBohatera(siatka,logi,sy,sx,bohater):
