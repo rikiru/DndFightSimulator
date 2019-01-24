@@ -41,7 +41,7 @@ class Hero:
     def zwiekszHP(self,leczenie):
         self.bohater['HP'] = self.bohater['HP'] + leczenie
     def getRuchy(self):
-        return {"Ruch":["Ruch Standardowy"],"Standardowa":["Atak Standardowy"],"Czar":["Magiczny Pocisk","Kula Ognia"]}
+        return self.bohater['actions']
     def toJSON(self):
         data = {}
         data['x'] = self.x
@@ -122,7 +122,7 @@ class Czar:
     def magicznypocisk(self,bohater):
         obrazenia = randrange(1,4) + 1
         bohater.zminejszHP(obrazenia)
-        self.logi.write("magicznypocisk zadal " + str(obrazenia))
+        self.logi.write("magicznypocisk zadal " + str(obrazenia) + " " + bohater.znaczek)
     def leczenielr(self,bohater):
         lecz = randrange(1,6)
         bohater.zwiekszHP(lecz)

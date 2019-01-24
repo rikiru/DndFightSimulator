@@ -7,8 +7,8 @@
   },
   "team1":[
     {
-        "class":"Barbarzynca",
-        "race":"Krasnolud",
+        "class":"Czarodziej",
+        "race":"Elf",
         "lvl":1,
         "s":10,
         "z":10,
@@ -20,7 +20,7 @@
         "armor":"Przeszywanica",
         "locatios":{"x":0,"y":0},
         "char":"1",
-        "actions":[]
+        "actions":{"Ruch":["Ruch Standardowy"],"Standardowa":["Atak Standardowy"],"Czar":[{"Nazwa":"Magiczny Pocisk","Ilosc":2},{"Nazwa":"Kula Ognia","Ilosc":1}]}
       }
   ],
   "team2":[
@@ -28,7 +28,7 @@
         "class":"Barbarzynca",
         "race":"Krasnolud",
         "lvl":1,
-        "s":10,
+        "s":18,
         "z":10,
         "b":10,
         "i":10,
@@ -38,7 +38,7 @@
         "armor":"Przeszywanica",
         "locatios":{"x":3,"y":3},
         "char":"2",
-        "actions":[]
+        "actions":{"Ruch":["Ruch Standardowy"],"Standardowa":["Atak Standardowy"],"Czar":[]}
   }
   ]
 }

@@ -10,12 +10,21 @@ BUFFER_SIZE = 1024
 
 
 class Tura:
+    def checkSpecjalne(self):
+        for spec in self.hero.bohater['specjalne']:
+            if spec['Czas'] < 0:
+                if spec['Nazwa'] == "silaByka":
+                    self.hero.bohater['atrybuty']['s'] = self.hero.bohater['atrybuty']['s'] - 4
+            else:
+                spec['Czas'] -=1
+
     def __init__(self,siatka,log,buttons,hero):
         self.buttons = buttons
         self.siatka = siatka
         self.log = log
         self.log.win.keypad(1)
         self.hero = hero
+        self.checkSpecjalne()
     def getMouse(self):
         event = self.log.win.getch()
         if event == curses.KEY_MOUSE:
@@ -40,10 +49,13 @@ class Tura:
         ruch = Ruch(self.siatka,self.log)
         if check[:len("Ruch Standardowy")] == "Ruch Standardowy":
             ruch.przesBohatera(position[0],position[1],self.hero)
-
     def standard(self):
         but = self.hero.getRuchy()
-        self.buttons.setButtons(but['Standardowa'])
+        butczar = []
+        for czar in but['Czar']:
+            if czar['Ilosc'] > 0:
+                butczar.append(czar['Nazwa'])
+        self.buttons.setButtons(but['Standardowa']+butczar)
         self.buttons.drawButtons()
         check = "0"
         while check == "0":
@@ -58,8 +70,29 @@ class Tura:
             self.checklog(mysz[0],mysz[1])
             self.log.write(str(position))
             standard = Standardowa(self.siatka,self.log)
+            czar = Czar(self.siatka,self.log)
         if check[:len("Atak Standardowy")] == "Atak Standardowy":
             standard.atakStandardowy(self.hero,self.siatka.win[position[1]][position[0]].bohater)
+        if check[:len("Magiczny Pocisk")] == "Magiczny Pocisk":
+            czar.magicznypocisk(self.siatka.win[position[1]][position[0]].bohater)
+            for czar in but['Czar']:
+                if czar['Nazwa'] == "Magiczny Pocisk":
+                    czar['Ilosc'] -=1
+        if check[:len("Kula Ognia")] == "Kula Ognia":
+            czar.kulaognia(position[1],position[0])
+            for czar in but['Czar']:
+                if czar['Nazwa'] == "Kula Ognia":
+                    czar['Ilosc'] -=1
+        if check[:len("L Lekkich Ran")] == "L Lekkich Ran":
+            czar.leczenielr(self.siatka.win[position[1]][position[0]].bohater)
+            for czar in but['Czar']:
+                if czar['Nazwa'] == "L Lekkich Ran":
+                    czar['Ilosc'] -=1
+        if check[:len("Siala Byka")] == "Siala Byka":
+            czar.silaByka(self.siatka.win[position[1]][position[0]].bohater)
+            for czar in but['Czar']:
+                if czar['Nazwa'] == "Siala Byka":
+                    czar['Ilosc'] -=1
 
     def checklog(self,mysz1,mysz2):
         log=self.log.checkpoint(mysz1,mysz2)
@@ -81,10 +114,10 @@ class Gra:
         log=Logi(config['map']['xlength'],config['map']['ylength'],config['map']['xsize'],config['map']['ysize'])
         self.tw = Tworzenie(siatka,log)
         for heroes in config['team1']:
-            her = Bohater(heroes['race'],heroes['class'],heroes['lvl'],heroes['s'],heroes['z'],heroes['b'],heroes['i'],heroes['m'],heroes['c'],heroes['weapon'],heroes['armor'])
+            her = Bohater(heroes['race'],heroes['class'],heroes['lvl'],heroes['s'],heroes['z'],heroes['b'],heroes['i'],heroes['m'],heroes['c'],heroes['weapon'],heroes['armor'],heroes['actions'])
             self.Heroes.append(self.tw.stworzBohatera(heroes['locatios']['x'],heroes['locatios']['y'],her,heroes['char'],1))
         for heroes in config['team2']:
-            her = Bohater(heroes['race'],heroes['class'],heroes['lvl'],heroes['s'],heroes['z'],heroes['b'],heroes['i'],heroes['m'],heroes['c'],heroes['weapon'],heroes['armor'])
+            her = Bohater(heroes['race'],heroes['class'],heroes['lvl'],heroes['s'],heroes['z'],heroes['b'],heroes['i'],heroes['m'],heroes['c'],heroes['weapon'],heroes['armor'],heroes['actions'])
             hero = self.tw.stworzBohatera(heroes['locatios']['x'],heroes['locatios']['y'],her,heroes['char'],2)
             self.Heroes.append(hero)
         i=0
@@ -117,10 +150,10 @@ class GraSerwer:
         log=Logi(config['map']['xlength'],config['map']['ylength'],config['map']['xsize'],config['map']['ysize'])
         self.tw = Tworzenie(siatka,log)
         for heroes in config['team1']:
-            her = Bohater(heroes['race'],heroes['class'],heroes['lvl'],heroes['s'],heroes['z'],heroes['b'],heroes['i'],heroes['m'],heroes['c'],heroes['weapon'],heroes['armor'])
+            her = Bohater(heroes['race'],heroes['class'],heroes['lvl'],heroes['s'],heroes['z'],heroes['b'],heroes['i'],heroes['m'],heroes['c'],heroes['weapon'],heroes['armor'],heroes['actions'])
             self.Heroes.append(self.tw.stworzBohatera(heroes['locatios']['x'],heroes['locatios']['y'],her,heroes['char'],1))
         for heroes in config['team2']:
-            her = Bohater(heroes['race'],heroes['class'],heroes['lvl'],heroes['s'],heroes['z'],heroes['b'],heroes['i'],heroes['m'],heroes['c'],heroes['weapon'],heroes['armor'])
+            her = Bohater(heroes['race'],heroes['class'],heroes['lvl'],heroes['s'],heroes['z'],heroes['b'],heroes['i'],heroes['m'],heroes['c'],heroes['weapon'],heroes['armor'],heroes['actions'])
             hero = self.tw.stworzBohatera(heroes['locatios']['x'],heroes['locatios']['y'],her,heroes['char'],2)
             self.Heroes.append(hero)
         dataHero={}
@@ -234,20 +267,22 @@ class GraClient:
 
 
 
-# stdscr = curses.initscr()
-# curses.curs_set(0)
-# curses.mousemask(1)
-# curses.cbreak()
-# curses.echo()
-# try:
-#     gra = Gra()
-# except Exception as e:
-#     print e
-#     curses.endwin()
-#     exit(0)
-# g= "z"
-# while g!="g":
-#     g=sys.stdin.read(1)
-#     if g == "q":
-#         curses.endwin()
-#         exit(0)
+stdscr = curses.initscr()
+curses.curs_set(0)
+curses.mousemask(1)
+curses.cbreak()
+curses.echo()
+try:
+    curses.start_color()
+    print curses.has_colors()
+    gra = Gra()
+except Exception as e:
+    print e
+    curses.endwin()
+    exit(0)
+g= "z"
+while g!="g":
+    g=sys.stdin.read(1)
+    if g == "q":
+        curses.endwin()
+        exit(0)

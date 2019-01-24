@@ -18,7 +18,8 @@ class Siatka:
     def create(self,y, x,char,bohater):
         self.win[x][y].bohater = bohater
         self.win[x][y].empty  = True
-        self.win[x][y].win.addstr(self.winh/2,self.winl/2,char)
+        curses.init_pair(1, curses.COLOR_RED, curses.COLOR_WHITE)
+        self.win[x][y].win.addstr(self.winh/2,self.winl/2,char,curses.color_pair(1))
         self.win[x][y].win.refresh()
     def move(self,ys, xs,yd,xd,char,bohater):
         if not self.win[xd][yd].empty:

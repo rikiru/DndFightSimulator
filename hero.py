@@ -32,7 +32,7 @@ def BA(lvl,umiejetnosci):
 def iloscAtakow(ba):
     return int(ceil(ba/5.0))
 
-def Bohater(rasa,klasa,lvl,s,z,b,i,m,c,bron,zbroja):
+def Bohater(rasa,klasa,lvl,s,z,b,i,m,c,bron,zbroja,actions):
         bklasa = Klasa(klasa)
         bzbroja = Zbroja(zbroja)
         brasa = Rasa(rasa)
@@ -61,7 +61,9 @@ def Bohater(rasa,klasa,lvl,s,z,b,i,m,c,bron,zbroja):
         "bron" : bron,
         "inicjatywa" : Modyfikator(z),
         "HP" : HP(bklasa["kw"],lvl),
-        "KP" : kp
+        "KP" : kp,
+        "actions" : actions,
+        "specjalne" :[] 
         }
         for i in brasa['Plusy']:
             json['atrybuty'][i] +=2
