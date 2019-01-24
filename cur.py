@@ -18,19 +18,19 @@ class Siatka:
     def create(self,y, x,char,bohater):
         self.win[x][y].bohater = bohater
         self.win[x][y].empty  = True
-        self.win[x][y].win.addch(self.winh/2,self.winl/2,char)
+        self.win[x][y].win.addstr(self.winh/2,self.winl/2,char)
         self.win[x][y].win.refresh()
     def move(self,ys, xs,yd,xd,char,bohater):
         if not self.win[xd][yd].empty:
             self.destroy(ys, xs)
-            self.win[xd][yd].win.addch(self.winh/2,self.winl/2,char)
+            self.win[xd][yd].win.addstr(self.winh/2,self.winl/2,char)
             self.win[xd][yd].bohater = bohater
             self.win[xd][yd].empty  = True
             self.win[xs][ys].win.refresh()
             self.win[xd][yd].win.refresh()
     def destroy(self,y, x):
         self.win[x][y].bohater = 0
-        self.win[x][y].win.addch(self.winh/2,self.winl/2,' ')
+        self.win[x][y].win.addstr(self.winh/2,self.winl/2,' ')
         self.win[x][y].empty  = False
         self.win[x][y].win.refresh()
     def __init__(self,h,l,winh,winl):
@@ -48,6 +48,7 @@ class Siatka:
                         return self.win[i][j].x,self.win[i][j].y
         return -1,-1
 
+
 class Logi:
     def write(self, string):
         dlugosc = len(string)
@@ -60,11 +61,9 @@ class Logi:
             ilosc = 1
             self.tekst.append(string)
         self.wypiszstrone();
-        self.count += ilosc
     def __init__(self,h,l,winh,winl):
         self.tekst =[]
         self.strona = 0
-        self.count = 0
         self.winh = winh*h
         self.winl = curses.COLS -1 - winl * l
         self.win=curses.newwin(self.winh, self.winl, 0, winl * l)
@@ -142,19 +141,18 @@ class Buttons:
         self.buttonwin = []
     def setButtons(self,buttons):
         self.button=buttons
-    def refreshButtons(self,page):
+    def refreshButtons(self):
         i=0
 
         lenn = len(self.button)
-        beg = page*9
-        end = 9+(9*page)
+        beg = self.page*9
+        end = 9+(9*self.page)
         if end > lenn:
             end =lenn
         if beg < 0 or end <= 0:
             beg = 0
             end = 9
             self.page = 0
-        print "beg",beg,"end",end,"len",len(self.button)
         for but in self.button[beg:end]:
             self.buttonwin.append(Buttonwin(self.h*self.sh + 1 + ((i/3)*3),1+((i%3)*((self.winl/3)-1)),3, ((self.winl/3)-1),str(but)))
             i=i+1
@@ -163,7 +161,7 @@ class Buttons:
             but.win.clear()
             but.win.refresh()
         self.buttonwin = []
-        self.refreshButtons(self.page)
+        self.refreshButtons()
     def checkpoint(self,x,y):
         wy,wx = self.win.getbegyx()
         ly,lx = self.win.getmaxyx()

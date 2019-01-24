@@ -54,6 +54,7 @@ def Rasa(Nazwa):
         "Elf": Elf(),
         "Gnom": Gnom(),
         "Polelf": Polelf(),
+        "Polork":Polokr(),
         "Nizolek": Nizolek(),
     }
     return switcher.get(Nazwa, "Zla nazwa rasy")

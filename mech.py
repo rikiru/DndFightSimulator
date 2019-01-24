@@ -33,7 +33,8 @@ class Hero:
         self.znaczek = zn
         self.specjalne = []
         self.team = team
-        self.bohater['inicjatywa']=inicjatywa + self.bohater['atrybuty']['z']
+        self.bohater['inicjatywa']= inicjatywa
+
 
     def zminejszHP(self,atak):
         self.bohater['HP'] = self.bohater['HP'] - atak
@@ -41,6 +42,21 @@ class Hero:
         self.bohater['HP'] = self.bohater['HP'] + leczenie
     def getRuchy(self):
         return {"Ruch":["Ruch Standardowy"],"Standardowa":["Atak Standardowy"],"Czar":["Magiczny Pocisk","Kula Ognia"]}
+    def toJSON(self):
+        data = {}
+        data['x'] = self.x
+        data['y'] = self.y
+        data['bohater'] =self.bohater
+        data['specjalne'] = self.specjalne
+        data['team'] = self.team
+        data['znaczek'] = self.znaczek
+        return data
+    def getJSON(self,data):
+        self.x=data['x']
+        self.y=data['y']
+        self.bohater=data['bohater']
+        self.specjalne = data['specjalne']
+
 
 
 
@@ -53,6 +69,11 @@ class Tworzenie:
         heros=Hero(bohater,sx,sy,zn,team,inicjatywa)
         self.siatka.create(sy,sx,zn,heros)
         self.logi.write("stworzono")
+        return heros
+    def wypiszBohatera(self,sy,sx,bohater,zn,team,inicjatywa):
+        heros=Hero(bohater,sx,sy,zn,team,inicjatywa)
+        self.siatka.create(sy,sx,zn,heros)
+        self.logi.write("wypisano")
         return heros
     def delHero(self,y,x):
         self.siatka.destroy(y,x)
@@ -78,7 +99,7 @@ class Standardowa:
         print odleglosc(bohatera.x,bohatera.y,bohaterb.x,bohaterb.y)
         print bron['Zasieg']
         if  odleglosc(bohatera.x,bohatera.y,bohaterb.x,bohaterb.y) <= bron['Zasieg'] :
-            self.logi.write(bohatera.znaczek + " zaatakowal " + bohaterb.znaczek)
+            self.logi.write(str(bohatera.znaczek) + " zaatakowal " + str(bohaterb.znaczek))
             kosc = randrange(1,20)
             self.logi.write(str(kosc) + " + " + str(Modyfikator(bohatera.bohater['atrybuty'][bron['Bouns']]))+ " = " + str(kosc+ Modyfikator(bohatera.bohater['atrybuty'][bron['Bouns']])) + "| kontra " + str(bohaterb.bohater['KP']))
             if kosc + Modyfikator(bohatera.bohater['atrybuty'][bron['Bouns']]) >= bohaterb.bohater['KP']:
