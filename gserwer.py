@@ -6,7 +6,10 @@ curses.mousemask(1)
 curses.cbreak()
 curses.echo()
 try:
+    curses.start_color()
     gra = GraSerwer()
+    curses.endwin()
+    exit(0)
 except Exception as e:
     print e
     curses.endwin()

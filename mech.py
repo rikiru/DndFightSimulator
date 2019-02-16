@@ -33,7 +33,7 @@ class Hero:
         self.znaczek = zn
         self.specjalne = []
         self.team = team
-        self.bohater['inicjatywa']= inicjatywa
+        self.bohater['inicjatywa'] += inicjatywa
 
 
     def zminejszHP(self,atak):
@@ -51,12 +51,6 @@ class Hero:
         data['team'] = self.team
         data['znaczek'] = self.znaczek
         return data
-    def getJSON(self,data):
-        self.x=data['x']
-        self.y=data['y']
-        self.bohater=data['bohater']
-        self.specjalne = data['specjalne']
-
 
 
 
@@ -68,12 +62,10 @@ class Tworzenie:
         inicjatywa = randrange(1,20)
         heros=Hero(bohater,sx,sy,zn,team,inicjatywa)
         self.siatka.create(sy,sx,zn,heros)
-        self.logi.write("stworzono")
         return heros
     def wypiszBohatera(self,sy,sx,bohater,zn,team,inicjatywa):
         heros=Hero(bohater,sx,sy,zn,team,inicjatywa)
         self.siatka.create(sy,sx,zn,heros)
-        self.logi.write("wypisano")
         return heros
     def delHero(self,y,x):
         self.siatka.destroy(y,x)
@@ -85,9 +77,14 @@ class Ruch:
         self.logi = logi
 
     def przesBohatera(self,dy,dx,bohater):
-        self.siatka.move(bohater.y,bohater.x,dy,dx,bohater.znaczek,bohater)
-        bohater.y = dy
-        bohater.x = dx
+        if odleglosc(bohater.x,bohater.y,dx,dy) <= bohater.bohater['predkosc'] :
+            self.siatka.move(bohater.y,bohater.x,dy,dx,bohater.znaczek,bohater)
+            bohater.y = dy
+            bohater.x = dx
+            self.logi.write("Bohater " + bohater.znaczek +" przeszedl na pole (" + str(dx) + "," + str(dy) + ")" )
+            return True
+        else:
+            return False
 
 
 class Standardowa:
@@ -96,8 +93,6 @@ class Standardowa:
         self.logi = logi
     def atakStandardowy(self,bohatera,bohaterb):
         bron = Bron(bohatera.bohater['bron'])
-        print odleglosc(bohatera.x,bohatera.y,bohaterb.x,bohaterb.y)
-        print bron['Zasieg']
         if  odleglosc(bohatera.x,bohatera.y,bohaterb.x,bohaterb.y) <= bron['Zasieg'] :
             self.logi.write(str(bohatera.znaczek) + " zaatakowal " + str(bohaterb.znaczek))
             kosc = randrange(1,20)
@@ -122,26 +117,25 @@ class Czar:
     def magicznypocisk(self,bohater):
         obrazenia = randrange(1,4) + 1
         bohater.zminejszHP(obrazenia)
-        self.logi.write("magicznypocisk zadal " + str(obrazenia) + " " + bohater.znaczek)
+        self.logi.write("Magiczny pocisk zadal " + str(obrazenia) + " obrazen " + bohater.znaczek)
     def leczenielr(self,bohater):
         lecz = randrange(1,6)
         bohater.zwiekszHP(lecz)
-        self.logi.write("lecznie przywrocilo " + str(lecz))
+        self.logi.write("Lecznie przywrocilo " + str(lecz) + " PW")
     def kulaognia(self,x,y):
-        self.logi.write("rzucono kule ognia")
-        print x,y
+        self.logi.write("Rzucono Kule Ognia")
         zasieg = [[x-1,y-1],[x-1,y],[x-1,y+1],[x,y-1],[x,y],[x,y+1],[x+1,y-1],[x+1,y],[x+1,y+1]]
         for pole in zasieg:
             if pole[1]>=0 and pole[0]>=0 and pole[1]< self.siatka.h and pole[0]<self.siatka.l:
                 if self.siatka.win[pole[0]][pole[1]].empty:
-                    self.logi.write("kula trafila" + self.siatka.win[pole[0]][pole[1]].bohater.znaczek)
+                    self.logi.write("Kula Ognia trafila " + self.siatka.win[pole[0]][pole[1]].bohater.znaczek)
                     obrazenia = randrange(1,6)
                     self.siatka.win[pole[0]][pole[1]].bohater.zminejszHP(obrazenia)
-                    self.logi.write("kula ogania zadala " + str(obrazenia) +" " +self.siatka.win[pole[0]][pole[1]].bohater.znaczek)
+                    self.logi.write("Kula Ognia zadala " + str(obrazenia) +" obrazen " +self.siatka.win[pole[0]][pole[1]].bohater.znaczek)
     def silaByka(self,bohater):
         bohater.bohater['atrybuty']['s'] = bohater.bohater['atrybuty']['s'] + 4
         bohater.specjalne.append({"Nazwa":"silaByka","Czas":4})
-        self.logi.write("silaByka")
+        self.logi.write("Rzucono Sile Byka na bohatera " + bohater.znaczek)
 
 
 

@@ -63,7 +63,8 @@ def Bohater(rasa,klasa,lvl,s,z,b,i,m,c,bron,zbroja,actions):
         "HP" : HP(bklasa["kw"],lvl),
         "KP" : kp,
         "actions" : actions,
-        "specjalne" :[] 
+        "specjalne" :[],
+        "predkosc" : brasa['Predkosc']
         }
         for i in brasa['Plusy']:
             json['atrybuty'][i] +=2

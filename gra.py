@@ -7,7 +7,7 @@ curses.cbreak()
 curses.echo()
 try:
     curses.start_color()
-    gra = GraClient()
+    gra = Gra()
     curses.endwin()
     exit(0)
 except Exception as e:

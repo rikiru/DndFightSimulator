@@ -2,49 +2,56 @@ def Czlowiek():
     json = {
     "Plusy":[],
     "Minusy":[],
-    "Specjalne":["atut"]
+    "Specjalne":["atut"],
+    "Predkosc":9
     }
     return json
 def Krasnolud():
     json = {
     "Plusy":["b"],
     "Minusy":["c"],
-    "Specjalne":[]
+    "Specjalne":[],
+    "Predkosc":6
     }
     return json
 def Elf():
     json = {
     "Plusy":["z"],
     "Minusy":["b"],
-    "Specjalne":[]
+    "Specjalne":[],
+    "Predkosc":9
     }
     return json
 def Gnom():
     json = {
     "Plusy":["b"],
     "Minusy":["s"],
-    "Specjalne":[]
+    "Specjalne":[],
+    "Predkosc":6
     }
     return json
 def Polelf():
     json = {
     "Plusy":[],
     "Minusy":[],
-    "Specjalne":[]
+    "Specjalne":[],
+    "Predkosc":9
     }
     return json
 def Polokr():
     json = {
     "Plusy":["s"],
     "Minusy":["c","i"],
-    "Specjalne":[]
+    "Specjalne":[],
+    "Predkosc":12
     }
     return json
 def Nizolek():
     json = {
     "Plusy":["z"],
     "Minusy":["s"],
-    "Specjalne":[]
+    "Specjalne":[],
+    "Predkosc":12
     }
     return json
 def Rasa(Nazwa):

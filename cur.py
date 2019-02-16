@@ -18,13 +18,12 @@ class Siatka:
     def create(self,y, x,char,bohater):
         self.win[x][y].bohater = bohater
         self.win[x][y].empty  = True
-        curses.init_pair(1, curses.COLOR_RED, curses.COLOR_WHITE)
-        self.win[x][y].win.addstr(self.winh/2,self.winl/2,char,curses.color_pair(1))
+        self.win[x][y].win.addstr(self.winh/2,self.winl/2,char,curses.color_pair(bohater.team))
         self.win[x][y].win.refresh()
     def move(self,ys, xs,yd,xd,char,bohater):
         if not self.win[xd][yd].empty:
             self.destroy(ys, xs)
-            self.win[xd][yd].win.addstr(self.winh/2,self.winl/2,char)
+            self.win[xd][yd].win.addstr(self.winh/2,self.winl/2,char,curses.color_pair(bohater.team))
             self.win[xd][yd].bohater = bohater
             self.win[xd][yd].empty  = True
             self.win[xs][ys].win.refresh()
@@ -35,6 +34,9 @@ class Siatka:
         self.win[x][y].empty  = False
         self.win[x][y].win.refresh()
     def __init__(self,h,l,winh,winl):
+        curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
+        curses.init_pair(2, curses.COLOR_BLUE, curses.COLOR_BLACK)
+        curses.init_pair(3, curses.COLOR_GREEN, curses.COLOR_BLACK)
         self.win = [[Pole(x,y,winh,winl) for x in range(h)] for y in range(l)]
         self.l =l
         self.h =h
@@ -61,6 +63,7 @@ class Logi:
         else:
             ilosc = 1
             self.tekst.append(string)
+        self.strona = (len(self.tekst)-1)/(self.winh-5)
         self.wypiszstrone();
     def __init__(self,h,l,winh,winl):
         self.tekst =[]
@@ -140,6 +143,13 @@ class Buttons:
         self.winright.refresh()
         self.page = 0;
         self.buttonwin = []
+    def changecolor(self,button):
+        for butt in self.buttonwin:
+            if butt != button:
+                butt.win.addstr(1,1,butt.inside)
+                butt.win.refresh()
+        button.win.addstr(1,1,button.inside,curses.color_pair(3))
+        button.win.refresh()
     def setButtons(self,buttons):
         self.button=buttons
     def refreshButtons(self):
@@ -171,6 +181,7 @@ class Buttons:
                 bwy,bwx = button.win.getbegyx()
                 bly,blx = button.win.getmaxyx()
                 if x>bwx and bwx + blx>x and y>bwy and bwy + bly>y:
+                    self.changecolor(button)
                     return button.win.instr(1, 1)
         bwy,bwx = self.winleft.getbegyx()
         bly,blx = self.winleft.getmaxyx()
